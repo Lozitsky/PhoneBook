@@ -1,4 +1,4 @@
-package sample;
+package com.kirilo.javafx.phone_book;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +10,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/sample.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 450, 475));
+        primaryStage.setMinHeight(500);
+        primaryStage.setMinWidth(460);
+        primaryStage.setScene(new Scene(root, 460, 475));
         primaryStage.show();
     }
 
