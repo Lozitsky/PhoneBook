@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirilo.javafx.phone_book.controllers.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirilo.javafx.phone_book.controllers.MainControl">
    <children>
       <AnchorPane maxHeight="25.0" minHeight="25.0" minWidth="350.0" prefHeight="25.0" prefWidth="350.0" VBox.vgrow="ALWAYS">
          <children>
@@ -28,8 +28,8 @@
          <children>
             <TableView fx:id="tableView" minWidth="350.0" prefHeight="110.0" prefWidth="350.0" style="-: 1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columns>
-                <TableColumn prefWidth="175.0" text="Full name" />
-                <TableColumn prefWidth="175.0" text="Phone" />
+                <TableColumn fx:id="columnFullName" prefWidth="175.0" text="Full name" />
+                <TableColumn fx:id="columnPhone" prefWidth="175.0" text="Phone" />
               </columns>
                <FlowPane.margin>
                   <Insets left="20.0" right="20.0" />
@@ -45,7 +45,7 @@
       </AnchorPane>
       <HBox alignment="CENTER" minHeight="69.0" prefHeight="69.0" prefWidth="462.0">
          <children>
-            <Button fx:id="buttonAdd" alignment="CENTER" contentDisplay="CENTER" minWidth="50.0" mnemonicParsing="false" onAction="#showDialog" prefWidth="100.0" text="Add" textAlignment="CENTER">
+            <Button fx:id="buttonAdd" alignment="CENTER" contentDisplay="CENTER" minWidth="50.0" mnemonicParsing="false" onAction="#addPerson" prefWidth="100.0" text="Add" textAlignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -53,7 +53,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="buttonEdit" alignment="CENTER" contentDisplay="CENTER" minWidth="50.0" mnemonicParsing="false" prefWidth="100.0" text="Edit" textAlignment="CENTER">
+            <Button fx:id="buttonEdit" alignment="CENTER" contentDisplay="CENTER" minWidth="50.0" mnemonicParsing="false" onAction="#editPerson" prefWidth="100.0" text="Edit" textAlignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -61,7 +61,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="buttonDel" alignment="CENTER" contentDisplay="CENTER" depthTest="DISABLE" minWidth="50.0" mnemonicParsing="false" prefWidth="100.0" text="Del" textAlignment="CENTER">
+            <Button fx:id="buttonDel" alignment="CENTER" contentDisplay="CENTER" depthTest="DISABLE" minWidth="50.0" mnemonicParsing="false" onAction="#delPerson" prefWidth="100.0" text="Del" textAlignment="CENTER">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -73,7 +73,7 @@
       </HBox>
       <AnchorPane prefHeight="20.0" prefWidth="382.0">
          <children>
-            <Label fx:id="LabelCounts" alignment="BASELINE_LEFT" contentDisplay="CENTER" minHeight="20.0" minWidth="350.0" prefHeight="20.0" prefWidth="422.0" text="Counts of notes:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+            <Label fx:id="labelCounts" alignment="BASELINE_LEFT" contentDisplay="CENTER" minHeight="20.0" minWidth="350.0" prefHeight="20.0" prefWidth="422.0" text="Counts of notes: " AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                <HBox.margin>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </HBox.margin>
