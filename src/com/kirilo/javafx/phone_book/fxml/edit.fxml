@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="144.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirilo.javafx.phone_book.controllers.EditDialogControl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="144.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirilo.javafx.phone_book.controllers.EditDialogController">
    <left>
       <VBox prefHeight="98.0" prefWidth="88.0" BorderPane.alignment="CENTER">
          <children>
@@ -41,7 +41,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="0.0" prefWidth="385.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="buttonOk" defaultButton="true" minWidth="80.0" mnemonicParsing="false" text="Ok">
+            <Button fx:id="buttonOk" defaultButton="true" minWidth="80.0" mnemonicParsing="false" onAction="#actionSave" text="Ok">
                <HBox.margin>
                   <Insets bottom="15.0" left="20.0" right="20.0" top="10.0" />
                </HBox.margin>

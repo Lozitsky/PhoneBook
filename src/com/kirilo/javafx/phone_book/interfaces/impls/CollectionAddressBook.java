@@ -9,9 +9,7 @@ public class CollectionAddressBook implements AddressBook {
     private ObservableList<Person> personList;
 
     public CollectionAddressBook() {
-//        this.personList = new ArrayList<>();
         personList = FXCollections.observableArrayList();
-        fillTestData();
     }
 
     public ObservableList<Person> getPersonList() {
@@ -33,7 +31,7 @@ public class CollectionAddressBook implements AddressBook {
 
     }
 
-    private void fillTestData() {
+    public void fillTestData() {
         personList.add(new Person("Hans Muster", "0971234561"));
         personList.add(new Person("Ruth Mueller", "0971234562"));
         personList.add(new Person("Heinz Kurz", "0971234563"));

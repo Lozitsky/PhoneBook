@@ -17,6 +17,8 @@ public class Person {
     }
 
     public Person() {
+        fullName = new SimpleStringProperty("");
+        phone = new SimpleStringProperty("");
     }
 
     public StringProperty getFullNameProperty() {

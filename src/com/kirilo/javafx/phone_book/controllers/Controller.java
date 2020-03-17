@@ -2,6 +2,6 @@ package com.kirilo.javafx.phone_book.controllers;
 
 import com.kirilo.javafx.phone_book.commands.Command;
 
-public interface Control {
+public interface Controller {
     void executeCommand(Command command);
 }

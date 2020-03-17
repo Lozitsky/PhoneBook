@@ -1,17 +1,19 @@
 package com.kirilo.javafx.phone_book.commands;
 
-import javafx.scene.Node;
-import javafx.stage.Stage;
+import com.kirilo.javafx.phone_book.controllers.MainController;
 
-public class CancelCommand extends AbstractCommand {
-    public CancelCommand(Node node) {
-        super(node);
+public class CancelCommand extends AbstractControllerCommand {
+
+    private MainController controller;
+
+    public CancelCommand(MainController controller) {
+        super(controller);
+        this.controller = controller;
     }
 
     @Override
     public boolean execute() {
-        Stage stage = (Stage) getNode().getScene().getWindow();
-        stage.close();
+        controller.getFxmlEdit().getScene().getWindow().hide();
         return true;
     }
 }
