@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,8 +17,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-public class MainController implements Controller {
+public class MainController implements Controller, Initializable {
     private CollectionAddressBook addressBook;
     private Parent fxmlEdit;
     private FXMLLoader fxmlLoader;
@@ -46,6 +50,7 @@ public class MainController implements Controller {
     private AddCommand addCommand;
     private EditCommand editCommand;
     private DelCommand delCommand;
+    private ResourceBundle resources;
 
     public Stage getEditStage() {
         return editStage;
@@ -66,7 +71,8 @@ public class MainController implements Controller {
     public void showDialog() {
         if (editStage == null) {
             editStage = new Stage();
-            editStage.setTitle("Editing note");
+//            editStage.setTitle("Editing note");
+            editStage.setTitle(fxmlLoader.getResources().getString("editing_note"));
             editStage.setMinHeight(150);
             editStage.setMinWidth(300);
             editStage.setResizable(false);
@@ -85,8 +91,15 @@ public class MainController implements Controller {
         return cancelCommand;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.resources = resources;
+
+/*    }
+
     @FXML
-    private void initialize() {
+    private void initialize() {*/
+
         columnFullName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
         columnPhone.setCellValueFactory(param -> param.getValue().getPhoneProperty());
 
@@ -106,6 +119,7 @@ public class MainController implements Controller {
         try {
             fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("../fxml/edit.fxml"));
+            fxmlLoader.setResources(ResourceBundle.getBundle("com/kirilo.javafx.phone_book.bundles.Locale", new Locale("uk")));
             fxmlEdit = fxmlLoader.<Parent>load();
             editDialogController = fxmlLoader.<EditDialogController>getController();
             editDialogController.setMainController(this);
@@ -120,7 +134,8 @@ public class MainController implements Controller {
     }
 
     private void updateCountLabel() {
-        labelCounts.setText("Counts of notes: " + addressBook.getPersonList().size());
+//        labelCounts.setText("Counts of notes: " + addressBook.getPersonList().size());
+        labelCounts.setText(resources.getString("counts_of_notes") + ": " + addressBook.getPersonList().size());
     }
 
     public void addPerson(ActionEvent actionEvent) {

@@ -9,6 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class Main extends Application {
 
     public static void main(String[] args) {
@@ -17,14 +20,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("fxml/phone_book.fxml"));
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("fxml/phone_book.fxml"));
+        fxmlLoader.setResources(ResourceBundle.getBundle("com/kirilo.javafx.phone_book.bundles.Locale", new Locale("uk")));
         Parent parent = fxmlLoader.<Parent>load();
         MainController mainController = fxmlLoader.<MainController>getController();
         mainController.setMainStage(primaryStage);
 
-        primaryStage.setTitle("Address Book");
+//        primaryStage.setTitle("Address Book");
+        primaryStage.setTitle(fxmlLoader.getResources().getString("address_book"));
         primaryStage.setMinHeight(500);
         primaryStage.setMinWidth(460);
         primaryStage.setScene(new Scene(parent, 460, 475));
