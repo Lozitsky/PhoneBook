@@ -19,13 +19,13 @@ public class EditCommand extends AbstractControllerCommand {
     public boolean execute() {
         EditDialogController editDialogController = controller.getEditDialogController();
         Person selectedPerson = controller.getSelectedPerson();
-        try {
-            editDialogController.setPerson(Optional.ofNullable(selectedPerson).orElseThrow(Exception::new));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         if (selectedPerson == null ) {
             return false;
+        }
+        try {
+            editDialogController.setPerson(Optional.of(selectedPerson).orElseThrow(Exception::new));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         controller.showDialog();
 

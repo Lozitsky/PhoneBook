@@ -19,7 +19,7 @@ public class AddCommand extends AbstractControllerCommand {
         editDialogController.setPerson(new Person());
         Person person = editDialogController.getPerson();
         controller.showDialog();
-        while (person.getFullName().equals("") || person.getPhone().equals("")) {
+        if (person.getFullName().equals("") || person.getPhone().equals("")) {
             return false;
         }
 

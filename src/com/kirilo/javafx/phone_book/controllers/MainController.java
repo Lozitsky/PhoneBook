@@ -3,9 +3,12 @@ package com.kirilo.javafx.phone_book.controllers;
 import com.kirilo.javafx.phone_book.commands.*;
 import com.kirilo.javafx.phone_book.interfaces.impls.CollectionAddressBook;
 import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.utils.DataUtil;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,14 +62,15 @@ public class MainController implements Controller, Initializable {
     private Command delCommand;
     private Command searchCommand;
     private ResourceBundle resources;
+    private FilteredList<Person> filteredList;
 
     public TextField getTextField() {
         return textField;
     }
 
-    public Stage getEditStage() {
+/*    public Stage getEditStage() {
         return editStage;
-    }
+    }*/
 
     public CollectionAddressBook getAddressBook() {
         return addressBook;
@@ -118,6 +122,12 @@ public class MainController implements Controller, Initializable {
         initCommands();
     }
 
+    private ObservableList<Person> getSortedLists(ObservableList<Person> observableList) {
+        SortedList<Person> sortedList = new SortedList<>(observableList);
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        return sortedList;
+    }
+
     //    not used. Another way is used that extends the TextField class and created a static factory method.
     private void setClearButtonField(CustomTextField customTextField) {
         try {
@@ -129,19 +139,40 @@ public class MainController implements Controller, Initializable {
         }
     }
 
+    public FilteredList<Person> getFilteredList() {
+        return filteredList;
+    }
+
     private void initListeners() {
         addressBook = new CollectionAddressBook();
         ObservableList<Person> personList = addressBook.getPersonList();
-        personList.addListener((ListChangeListener<? super Person>) change -> updateCountLabel());
 
-        addressBook.fillTestData();
-        tableView.setItems(personList);
+        filteredList = new FilteredList(personList, person -> true);
+        filteredList.addListener((ListChangeListener<? super Person>) changingList -> updateCountLabel());
+
+        DataUtil.fillTestData(personList);
+
+        tableView.setItems(getSortedLists(filteredList));
+
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
                 executeCommand(editCommand);
             }
         });
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+//        filtering without button
+//        https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
+/*        textField.textProperty().addListener((observable, oldValue, newValue) ->
+                filteredList.setPredicate(person -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    String newValueLoverCase = newValue.toLowerCase();
+                    return person.getFullName().toLowerCase().contains(newValueLoverCase) ||
+                            person.getPhone().toLowerCase().contains(newValueLoverCase);
+                })
+        );*/
     }
 
     private void initLoader() {
@@ -149,11 +180,11 @@ public class MainController implements Controller, Initializable {
 
         fxmlLoader.setResources(ResourceBundle.getBundle("com/kirilo.javafx.phone_book.bundles.Locale", new Locale("uk")));
         try (InputStream inputStream = getClass().getResourceAsStream("../fxml/edit.fxml")) {
-            fxmlEdit = fxmlLoader.<Parent>load(inputStream);
+            fxmlEdit = fxmlLoader.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        editDialogController = fxmlLoader.<EditDialogController>getController();
+        editDialogController = fxmlLoader.getController();
         editDialogController.setMainController(this);
     }
 
@@ -166,7 +197,10 @@ public class MainController implements Controller, Initializable {
     }
 
     private void updateCountLabel() {
-        labelCounts.setText(resources.getString("count_of_notes") + ": " + addressBook.getPersonList().size());
+        labelCounts.setText(resources.getString("count_of_notes") + ": " +
+//                addressBook.getPersonList().size()
+                        filteredList.size()
+        );
     }
 
     public void addPerson(ActionEvent actionEvent) {
