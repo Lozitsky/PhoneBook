@@ -1,6 +1,5 @@
 package com.kirilo.javafx.phone_book.controllers;
 
-import com.kirilo.javafx.phone_book.commands.CancelCommand;
 import com.kirilo.javafx.phone_book.commands.Command;
 import com.kirilo.javafx.phone_book.commands.SaveCommand;
 import com.kirilo.javafx.phone_book.objects.Person;

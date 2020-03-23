@@ -4,14 +4,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Person {
-    /*private String fullName;
-    private String phone;*/
     private StringProperty fullName;
     private StringProperty phone;
 
     public Person(String fullName, String phone) {
-/*        this.fullName = fullName;
-        this.phone = phone;*/
         this.fullName = new SimpleStringProperty(fullName);
         this.phone = new SimpleStringProperty(phone);
     }
@@ -34,7 +30,6 @@ public class Person {
     }
 
     public void setFullName(String fullName) {
-//        this.fullName = fullName;
         this.fullName.set(fullName);
     }
 

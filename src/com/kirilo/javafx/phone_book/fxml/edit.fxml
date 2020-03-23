@@ -2,10 +2,10 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="144.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kirilo.javafx.phone_book.controllers.EditDialogController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="144.0" prefWidth="385.0" xmlns="http://javafx.com/javafx/8"
+            fx:controller="com.kirilo.javafx.phone_book.controllers.EditDialogController">
    <left>
       <VBox prefHeight="98.0" prefWidth="88.0" BorderPane.alignment="CENTER">
          <children>
