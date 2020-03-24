@@ -30,6 +30,8 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static com.kirilo.javafx.phone_book.utils.DialogManager.isSelected;
+
 //https://stackoverflow.com/questions/55696100/javafx-change-node-generated-by-fxml-to-another-node
 public class MainController implements Controller, Initializable {
     private CollectionAddressBook addressBook;
@@ -104,6 +106,10 @@ public class MainController implements Controller, Initializable {
 
     public CancelCommand getCancelCommand() {
         return cancelCommand;
+    }
+
+    public ResourceBundle getResources() {
+        return resources;
     }
 
     @Override

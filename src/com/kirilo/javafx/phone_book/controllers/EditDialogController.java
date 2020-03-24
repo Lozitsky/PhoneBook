@@ -5,10 +5,14 @@ import com.kirilo.javafx.phone_book.commands.SaveCommand;
 import com.kirilo.javafx.phone_book.objects.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class EditDialogController implements Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class EditDialogController implements Controller, Initializable {
     @FXML
     private Button buttonOk;
     @FXML
@@ -18,7 +22,13 @@ public class EditDialogController implements Controller {
     @FXML
     private Button buttonCancel;
     private Person person;
+
+/*    public MainController getMainController() {
+        return mainController;
+    }*/
+
     private MainController mainController;
+    private ResourceBundle resources;
 
     public Person getPerson() {
         return person;
@@ -43,6 +53,7 @@ public class EditDialogController implements Controller {
 
     public void actionClose(ActionEvent actionEvent) {
         executeCommand(mainController.getCancelCommand());
+//        executeCommand(new CancelCommand(mainController));
     }
 
     @Override
@@ -52,11 +63,20 @@ public class EditDialogController implements Controller {
     }
 
     public void actionSave(ActionEvent actionEvent) {
-        executeCommand(new SaveCommand(this));
-        executeCommand(mainController.getCancelCommand());
+        executeCommand(new SaveCommand(mainController));
     }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
+    }
+
+    public ResourceBundle getResources() {
+        return resources;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        this.resources = resources;
     }
 }

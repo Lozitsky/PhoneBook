@@ -1,29 +1,46 @@
 package com.kirilo.javafx.phone_book.commands;
 
 import com.kirilo.javafx.phone_book.controllers.EditDialogController;
+import com.kirilo.javafx.phone_book.controllers.MainController;
 import com.kirilo.javafx.phone_book.objects.Person;
+
+import java.util.ResourceBundle;
+
+import static com.kirilo.javafx.phone_book.utils.DialogManager.checkValues;
+import static com.kirilo.javafx.phone_book.utils.DialogManager.isSelected;
 
 public class SaveCommand extends AbstractControllerCommand {
 
-    private EditDialogController control;
+    private MainController controller;
+    private ResourceBundle resources;
+    private EditDialogController editDialogController;
 
-    public SaveCommand(EditDialogController control) {
+    public SaveCommand(MainController control) {
         super(control);
-        this.control = control;
+        this.controller = control;
+        editDialogController = control.getEditDialogController();
+        resources = control.getResources();
     }
 
     @Override
     public boolean execute() {
-        Person selectedPerson = control.getPerson();
-        String fullName = control.getFieldName().getText();
-        String phone = control.getFieldPhone().getText();
+        Person selectedPerson = editDialogController.getPerson();
+        String fullName = editDialogController.getFieldName().getText();
+        String phone = editDialogController.getFieldPhone().getText();
 
-        if (fullName.equals("") || phone.equals("")) {
+        if (!isSelected(selectedPerson, resources.getString("error"), resources.getString("select_person"))) {
+            return false;
+        }
+
+        if (!checkValues(resources.getString("error"), resources.getString("fill_field"), fullName, phone)) {
             return false;
         }
 
         selectedPerson.setFullName(fullName);
         selectedPerson.setPhone(phone);
+
+        controller.getFxmlEdit().getScene().getWindow().hide();
+
         return true;
     }
 }
