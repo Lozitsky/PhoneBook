@@ -25,18 +25,15 @@ public class EditCommand extends AbstractControllerCommand {
     @Override
     public boolean execute() {
         Person selectedPerson = controller.getSelectedPerson();
-        if (!isSelected(selectedPerson, resources.getString("error"), resources.getString("select_person"))) {
-            return false;
-        }
-
-        if (!checkValues(selectedPerson, resources.getString("error"), resources.getString("fill_field"))) {
+        if (!isSelected(selectedPerson, resources.getString("error"), resources.getString("select_person")) ||
+                !checkValues(selectedPerson, resources.getString("error"), resources.getString("fill_field"))) {
             return false;
         }
 
         editDialogController.setPerson(selectedPerson);
         controller.showDialog();
 
-        System.out.print("edit ");
+//        System.out.print("edit ");
         return true;
     }
 }

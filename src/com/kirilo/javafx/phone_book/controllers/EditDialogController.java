@@ -23,10 +23,6 @@ public class EditDialogController implements Controller, Initializable {
     private Button buttonCancel;
     private Person person;
 
-/*    public MainController getMainController() {
-        return mainController;
-    }*/
-
     private MainController mainController;
     private ResourceBundle resources;
 
@@ -53,7 +49,6 @@ public class EditDialogController implements Controller, Initializable {
 
     public void actionClose(ActionEvent actionEvent) {
         executeCommand(mainController.getCancelCommand());
-//        executeCommand(new CancelCommand(mainController));
     }
 
     @Override

@@ -13,7 +13,7 @@ public class CancelCommand extends AbstractControllerCommand {
 
     @Override
     public boolean execute() {
-        System.out.println("Cancel command");
+//        System.out.println("Cancel command");
         controller.getFxmlEdit().getScene().getWindow().hide();
         return true;
     }

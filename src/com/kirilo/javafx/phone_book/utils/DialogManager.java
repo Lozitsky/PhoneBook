@@ -25,7 +25,8 @@ public class DialogManager {
     }
 
     public static boolean isSelected(Object selectedObject, String title, String text) {
-        return checkWithPredicate(title, text, selectedObject == null);
+//        System.out.println(selectedObject.toString().equals("[]"));
+        return checkWithPredicate(title, text, selectedObject == null || selectedObject.toString().equals("[]"));
     }
 
     public static boolean checkValues(Person person, String title, String text) {

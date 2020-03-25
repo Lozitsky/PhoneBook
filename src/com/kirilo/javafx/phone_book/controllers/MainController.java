@@ -2,8 +2,10 @@ package com.kirilo.javafx.phone_book.controllers;
 
 import com.kirilo.javafx.phone_book.commands.*;
 import com.kirilo.javafx.phone_book.interfaces.impls.CollectionAddressBook;
+import com.kirilo.javafx.phone_book.objects.Lang;
 import com.kirilo.javafx.phone_book.objects.Person;
 import com.kirilo.javafx.phone_book.utils.DataUtil;
+import com.kirilo.javafx.phone_book.utils.LocaleManager;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -27,17 +29,19 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Locale;
+import java.util.Observable;
 import java.util.ResourceBundle;
 
-import static com.kirilo.javafx.phone_book.utils.DialogManager.isSelected;
+import static com.kirilo.javafx.phone_book.objects.LangCode.*;
 
 //https://stackoverflow.com/questions/55696100/javafx-change-node-generated-by-fxml-to-another-node
-public class MainController implements Controller, Initializable {
+public class MainController extends Observable implements Controller, Initializable {
     private CollectionAddressBook addressBook;
     private Parent fxmlEdit;
     private FXMLLoader fxmlLoader;
     private EditDialogController editDialogController;
+    @FXML
+    private ComboBox<Lang> comboLocales;
     @FXML
     private Button buttonAdd;
     @FXML
@@ -50,6 +54,11 @@ public class MainController implements Controller, Initializable {
     private TextField textField;
     @FXML
     private Button buttonSearch;
+
+    public TableView<Person> getTableView() {
+        return tableView;
+    }
+
     @FXML
     private TableView<Person> tableView;
     @FXML
@@ -69,10 +78,6 @@ public class MainController implements Controller, Initializable {
     public TextField getTextField() {
         return textField;
     }
-
-/*    public Stage getEditStage() {
-        return editStage;
-    }*/
 
     public CollectionAddressBook getAddressBook() {
         return addressBook;
@@ -121,11 +126,22 @@ public class MainController implements Controller, Initializable {
 
 //        setClearButtonField(textField);
 
+        fillLangComboBox();
+
         initListeners();
 
         initLoader();
 
         initCommands();
+    }
+
+    private void fillLangComboBox() {
+
+        comboLocales.getItems().add(LocaleManager.getLang(uk));
+        comboLocales.getItems().add(LocaleManager.getLang(en));
+        comboLocales.getItems().add(LocaleManager.getLang(ru));
+
+        comboLocales.getSelectionModel().select(LocaleManager.getCurrentLang().getIndex());
     }
 
     private ObservableList<Person> getSortedLists(ObservableList<Person> observableList) {
@@ -179,12 +195,19 @@ public class MainController implements Controller, Initializable {
                             person.getPhone().toLowerCase().contains(newValueLoverCase);
                 })
         );*/
+
+        comboLocales.setOnAction(event -> {
+            Lang selectedLang = comboLocales.getSelectionModel().getSelectedItem();
+            LocaleManager.setCurrentLang(selectedLang);
+            setChanged();
+            notifyObservers(selectedLang);
+        });
     }
 
     private void initLoader() {
         fxmlLoader = new FXMLLoader();
 
-        fxmlLoader.setResources(ResourceBundle.getBundle("com/kirilo.javafx.phone_book.bundles.Locale", new Locale("uk")));
+        fxmlLoader.setResources(ResourceBundle.getBundle("com/kirilo.javafx.phone_book.bundles.Locale", LocaleManager.getCurrentLang().getLocale()));
         try (InputStream inputStream = getClass().getResourceAsStream("../fxml/edit.fxml")) {
             fxmlEdit = fxmlLoader.load(inputStream);
         } catch (IOException e) {
@@ -204,8 +227,7 @@ public class MainController implements Controller, Initializable {
 
     private void updateCountLabel() {
         labelCounts.setText(resources.getString("count_of_notes") + ": " +
-//                addressBook.getPersonList().size()
-                        filteredList.size()
+                filteredList.size()
         );
     }
 
@@ -240,4 +262,6 @@ public class MainController implements Controller, Initializable {
     public ObservableList<Person> getSelectedPersons() {
         return tableView.getSelectionModel().getSelectedItems();
     }
+
+
 }

@@ -25,8 +25,9 @@ public class DelCommand extends AbstractControllerCommand {
         if (!isSelected(selectedPersons, resources.getString("error"), resources.getString("select_person"))) {
             return false;
         }
+//        System.out.println(selectedPersons);
         controller.getAddressBook().getPersonList().removeAll(selectedPersons);
-        System.out.print("delete ");
+//        System.out.print("delete ");
         return true;
     }
 }

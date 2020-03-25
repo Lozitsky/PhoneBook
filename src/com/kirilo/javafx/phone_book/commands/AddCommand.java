@@ -3,6 +3,7 @@ package com.kirilo.javafx.phone_book.commands;
 import com.kirilo.javafx.phone_book.controllers.EditDialogController;
 import com.kirilo.javafx.phone_book.controllers.MainController;
 import com.kirilo.javafx.phone_book.objects.Person;
+import javafx.scene.control.TableView;
 
 import java.util.ResourceBundle;
 
@@ -31,8 +32,12 @@ public class AddCommand extends AbstractControllerCommand {
         }
 
         controller.getAddressBook().add(person);
+        int row = controller.getFilteredList().size() - 1;
 
-        System.out.print("add ");
+        TableView<Person> tableView = controller.getTableView();
+//        tableView.requestFocus();
+//        tableView.getSelectionModel().select(row);
+        tableView.scrollTo(row);
         return true;
     }
 }
