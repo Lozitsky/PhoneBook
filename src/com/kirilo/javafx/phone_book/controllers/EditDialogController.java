@@ -35,6 +35,11 @@ public class EditDialogController implements Controller, Initializable {
     private Person person;
 
     private MainController mainController;
+    private boolean isAdd;
+
+    public boolean isAdd() {
+        return isAdd;
+    }
 
     public Person getPerson() {
         return person;
@@ -42,7 +47,11 @@ public class EditDialogController implements Controller, Initializable {
 
     public void setPerson(Person person) {
         if (person == null) {
-            return;
+//            return;
+            isAdd = true;
+            person = new Person();
+        } else {
+            isAdd = false;
         }
         this.person = person;
         fieldName.setText(person.getFullName());

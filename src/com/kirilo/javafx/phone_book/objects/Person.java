@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 public class Person {
     private StringProperty fullName;
     private StringProperty phone;
+    private Integer id;
 
     public Person(String fullName, String phone) {
         this.fullName = new SimpleStringProperty(fullName);
@@ -15,6 +16,15 @@ public class Person {
     public Person() {
         fullName = new SimpleStringProperty("");
         phone = new SimpleStringProperty("");
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+
+        this.id = id;
     }
 
     public StringProperty getFullNameProperty() {

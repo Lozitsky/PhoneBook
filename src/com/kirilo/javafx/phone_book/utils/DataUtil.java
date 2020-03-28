@@ -35,10 +35,4 @@ public class DataUtil {
         );
         return field;
     }
-
-    public static TextField getClearableTextField(CustomTextField textField) {
-        CustomTextField field = (CustomTextField)TextFields.createClearableTextField();
-        field.textProperty().bind(textField.textProperty());
-        return field;
-    }
 }

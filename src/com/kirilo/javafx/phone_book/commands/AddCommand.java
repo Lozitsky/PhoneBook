@@ -18,22 +18,11 @@ public class AddCommand extends AbstractControllerCommand {
 
     @Override
     public boolean execute() {
-        editDialogController.setPerson(new Person());
+        editDialogController.setPerson(null);
         Person person = editDialogController.getPerson();
 
         controller.showDialog();
 
-        if (person == null || person.getFullName().trim().length() == 0 || person.getPhone().trim().length() == 0) {
-            return false;
-        }
-
-        controller.getAddressBook().add(person);
-        int row = controller.getFilteredList().size() - 1;
-
-        TableView<Person> tableView = controller.getTableView();
-//        tableView.requestFocus();
-//        tableView.getSelectionModel().select(row);
-        tableView.scrollTo(row);
-        return true;
+        return person != null && person.getFullName().trim().length() != 0 && person.getPhone().trim().length() != 0;
     }
 }

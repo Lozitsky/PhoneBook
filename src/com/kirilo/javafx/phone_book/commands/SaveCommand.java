@@ -3,6 +3,7 @@ package com.kirilo.javafx.phone_book.commands;
 import com.kirilo.javafx.phone_book.controllers.EditDialogController;
 import com.kirilo.javafx.phone_book.controllers.MainController;
 import com.kirilo.javafx.phone_book.objects.Person;
+import javafx.scene.control.TableView;
 
 import static com.kirilo.javafx.phone_book.utils.DialogManager.checkValues;
 import static com.kirilo.javafx.phone_book.utils.DialogManager.isSelected;
@@ -34,9 +35,24 @@ public class SaveCommand extends AbstractControllerCommand {
 
         selectedPerson.setFullName(fullName);
         selectedPerson.setPhone(phone);
+        int row = 0;
+        final boolean isExecute;
+        if (editDialogController.isAdd()) {
+            isExecute = controller.getAddressBook().add(selectedPerson);
+//            row = controller.getFilteredList().size() - 1;
+        } else {
+            isExecute = controller.getAddressBook().update(selectedPerson);
+        }
+        row = controller.getFilteredList().lastIndexOf(selectedPerson);
+        System.out.println(row);
+
+        TableView<Person> tableView = controller.getTableView();
+//        tableView.requestFocus();
+//        tableView.getSelectionModel().select(row);
+        tableView.scrollTo(row);
 
         controller.getFxmlEdit().getScene().getWindow().hide();
 
-        return true;
+        return isExecute;
     }
 }

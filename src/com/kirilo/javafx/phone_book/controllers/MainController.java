@@ -2,9 +2,8 @@ package com.kirilo.javafx.phone_book.controllers;
 
 import com.kirilo.javafx.phone_book.commands.*;
 import com.kirilo.javafx.phone_book.interfaces.AddressBook;
-import com.kirilo.javafx.phone_book.interfaces.impls.CollectionAddressBook;
+import com.kirilo.javafx.phone_book.interfaces.impls.DBAddressBook;
 import com.kirilo.javafx.phone_book.objects.Person;
-import com.kirilo.javafx.phone_book.utils.DataUtil;
 import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
@@ -167,13 +166,14 @@ public class MainController implements Controller, Initializable {
     }
 
     private void initListeners() {
-        addressBook = new CollectionAddressBook();
+//        addressBook = new CollectionAddressBook();
+        addressBook = new DBAddressBook();
         ObservableList<Person> personList = addressBook.findAll();
 
         filteredList = new FilteredList(personList, person -> true);
         filteredList.addListener((ListChangeListener<? super Person>) changingList -> updateCountLabel());
 
-        DataUtil.fillTestData(personList);
+//        DataUtil.fillTestData(personList);
 
         tableView.setItems(getSortedLists(filteredList));
 
