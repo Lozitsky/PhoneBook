@@ -4,22 +4,18 @@ import com.kirilo.javafx.phone_book.controllers.EditDialogController;
 import com.kirilo.javafx.phone_book.controllers.MainController;
 import com.kirilo.javafx.phone_book.objects.Person;
 
-import java.util.ResourceBundle;
-
 import static com.kirilo.javafx.phone_book.utils.DialogManager.checkValues;
 import static com.kirilo.javafx.phone_book.utils.DialogManager.isSelected;
 
 public class SaveCommand extends AbstractControllerCommand {
 
     private MainController controller;
-    private ResourceBundle resources;
     private EditDialogController editDialogController;
 
     public SaveCommand(MainController control) {
         super(control);
         this.controller = control;
         editDialogController = control.getEditDialogController();
-        resources = control.getResources();
     }
 
     @Override
@@ -28,11 +24,11 @@ public class SaveCommand extends AbstractControllerCommand {
         String fullName = editDialogController.getFieldName().getText();
         String phone = editDialogController.getFieldPhone().getText();
 
-        if (!isSelected(selectedPerson, resources.getString("error"), resources.getString("select_person"))) {
+        if (!isSelected(selectedPerson, "error", "select_person")) {
             return false;
         }
 
-        if (!checkValues(resources.getString("error"), resources.getString("fill_field"), fullName, phone)) {
+        if (!checkValues("error", "fill_field", fullName, phone)) {
             return false;
         }
 

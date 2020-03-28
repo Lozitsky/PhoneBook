@@ -9,12 +9,12 @@
    <left>
       <VBox prefHeight="98.0" prefWidth="88.0" BorderPane.alignment="CENTER">
          <children>
-            <Label minHeight="25.0" minWidth="20.0" prefHeight="25.0" prefWidth="60.0" text="%full_name">
+            <Label fx:id="labelName" minHeight="25.0" minWidth="20.0" prefHeight="25.0" prefWidth="60.0" text="%full_name">
                <VBox.margin>
                   <Insets bottom="10.0" left="15.0" right="5.0" top="15.0" />
                </VBox.margin>
             </Label>
-            <Label minHeight="25.0" minWidth="20.0" prefHeight="25.0" prefWidth="60.0" text="%phone">
+            <Label fx:id="labelPhone" minHeight="25.0" minWidth="20.0" prefHeight="25.0" prefWidth="60.0" text="%phone">
                <VBox.margin>
                   <Insets bottom="10.0" left="15.0" right="5.0" top="10.0" />
                </VBox.margin>

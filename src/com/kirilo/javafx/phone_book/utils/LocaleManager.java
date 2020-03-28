@@ -10,10 +10,6 @@ import java.util.ResourceBundle;
 public class LocaleManager {
     private static Lang currentLang;
     private static EnumMap<LangCode, Lang> enumMap = new EnumMap<>(LangCode.class);
-/*    public static final Locale EN_LOCALE = new Locale(en.getCode());
-    public static final Locale UK_LOCALE = new Locale(uk.getCode());
-    public static final Locale RU_LOCALE = new Locale(ru.getCode());*/
-
 
     public static Lang getCurrentLang() {
         return currentLang;
@@ -40,6 +36,9 @@ public class LocaleManager {
     }
 
     public static Lang getLang(LangCode langCode) {
+        System.out.println(langCode);
         return enumMap.get(langCode);
     }
+
+
 }

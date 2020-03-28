@@ -2,6 +2,10 @@ package com.kirilo.javafx.phone_book.utils;
 
 import com.kirilo.javafx.phone_book.objects.Person;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.scene.control.TextField;
+import org.controlsfx.control.textfield.CustomTextField;
+import org.controlsfx.control.textfield.TextFields;
 
 public class DataUtil {
 
@@ -15,5 +19,26 @@ public class DataUtil {
         personList.add(new Person("Anna Best", "0971234567"));
         personList.add(new Person("Stefan Meier", "0971234568"));
         personList.add(new Person("Martin Mueller", "0971234569"));
+    }
+
+    public static TextField getFilteringField(TextField textField, FilteredList<Person> filteredList) {
+        TextField field = new TextField(textField.getText());
+        field.textProperty().addListener((observable, oldValue, newValue) ->
+                filteredList.setPredicate(person -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    String newValueLoverCase = newValue.toLowerCase();
+                    return person.getFullName().toLowerCase().contains(newValueLoverCase) ||
+                            person.getPhone().toLowerCase().contains(newValueLoverCase);
+                })
+        );
+        return field;
+    }
+
+    public static TextField getClearableTextField(CustomTextField textField) {
+        CustomTextField field = (CustomTextField)TextFields.createClearableTextField();
+        field.textProperty().bind(textField.textProperty());
+        return field;
     }
 }

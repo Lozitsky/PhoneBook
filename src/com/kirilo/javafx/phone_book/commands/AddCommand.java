@@ -5,19 +5,15 @@ import com.kirilo.javafx.phone_book.controllers.MainController;
 import com.kirilo.javafx.phone_book.objects.Person;
 import javafx.scene.control.TableView;
 
-import java.util.ResourceBundle;
-
 public class AddCommand extends AbstractControllerCommand {
 
     private MainController controller;
     private EditDialogController editDialogController;
-    private ResourceBundle resources;
 
     public AddCommand(MainController controller) {
         super(controller);
         this.controller = controller;
         editDialogController = controller.getEditDialogController();
-        resources = controller.getResources();
     }
 
     @Override

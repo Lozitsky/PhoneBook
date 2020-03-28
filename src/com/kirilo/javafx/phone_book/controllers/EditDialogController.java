@@ -3,16 +3,22 @@ package com.kirilo.javafx.phone_book.controllers;
 import com.kirilo.javafx.phone_book.commands.Command;
 import com.kirilo.javafx.phone_book.commands.SaveCommand;
 import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class EditDialogController implements Controller, Initializable {
+    private static final String LOCALE_BUNDLE = "com/kirilo.javafx.phone_book.bundles.Locale";
+
+    private static ObservableResourceFactory RESOURCE_FACTORY;
     @FXML
     private Button buttonOk;
     @FXML
@@ -21,10 +27,14 @@ public class EditDialogController implements Controller, Initializable {
     private TextField fieldPhone;
     @FXML
     private Button buttonCancel;
+    @FXML
+    private Label labelName;
+    @FXML
+    private Label labelPhone;
+
     private Person person;
 
     private MainController mainController;
-    private ResourceBundle resources;
 
     public Person getPerson() {
         return person;
@@ -65,13 +75,14 @@ public class EditDialogController implements Controller, Initializable {
         this.mainController = mainController;
     }
 
-    public ResourceBundle getResources() {
-        return resources;
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        RESOURCE_FACTORY = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE_BUNDLE, new Locale("uk")));
 
-        this.resources = resources;
+        RESOURCE_FACTORY.setText(buttonCancel, "cancel");
+        RESOURCE_FACTORY.setText(buttonOk, "ok");
+        RESOURCE_FACTORY.setText(labelName, "full_name");
+        RESOURCE_FACTORY.setText(labelPhone, "phone");
     }
 }

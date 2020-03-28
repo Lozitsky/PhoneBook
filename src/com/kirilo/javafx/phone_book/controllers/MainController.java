@@ -1,11 +1,11 @@
 package com.kirilo.javafx.phone_book.controllers;
 
 import com.kirilo.javafx.phone_book.commands.*;
+import com.kirilo.javafx.phone_book.interfaces.AddressBook;
 import com.kirilo.javafx.phone_book.interfaces.impls.CollectionAddressBook;
-import com.kirilo.javafx.phone_book.objects.Lang;
 import com.kirilo.javafx.phone_book.objects.Person;
 import com.kirilo.javafx.phone_book.utils.DataUtil;
-import com.kirilo.javafx.phone_book.utils.LocaleManager;
+import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -29,19 +29,21 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Observable;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static com.kirilo.javafx.phone_book.objects.LangCode.*;
-
 //https://stackoverflow.com/questions/55696100/javafx-change-node-generated-by-fxml-to-another-node
-public class MainController extends Observable implements Controller, Initializable {
-    private CollectionAddressBook addressBook;
+public class MainController implements Controller, Initializable {
+    private static final String LOCALE = "com/kirilo.javafx.phone_book.bundles.Locale";
+    private static final Locale UK = new Locale("uk");
+    private static final String EDIT_RESOURCE = "../fxml/edit.fxml";
+    private ObservableResourceFactory RESOURCE_FACTORY;
+    private AddressBook addressBook;
     private Parent fxmlEdit;
     private FXMLLoader fxmlLoader;
     private EditDialogController editDialogController;
     @FXML
-    private ComboBox<Lang> comboLocales;
+    private ComboBox<Locale> comboLocales;
     @FXML
     private Button buttonAdd;
     @FXML
@@ -54,32 +56,31 @@ public class MainController extends Observable implements Controller, Initializa
     private TextField textField;
     @FXML
     private Button buttonSearch;
-
-    public TableView<Person> getTableView() {
-        return tableView;
-    }
-
     @FXML
     private TableView<Person> tableView;
     @FXML
     private TableColumn<Person, String> columnFullName;
     @FXML
     private TableColumn<Person, String> columnPhone;
-    private CancelCommand cancelCommand;
     private Stage editStage;
     private Stage mainStage;
+    private CancelCommand cancelCommand;
     private Command addCommand;
     private Command editCommand;
     private Command delCommand;
     private Command searchCommand;
-    private ResourceBundle resources;
     private FilteredList<Person> filteredList;
 
+    public TableView<Person> getTableView() {
+        return tableView;
+    }
+
     public TextField getTextField() {
+
         return textField;
     }
 
-    public CollectionAddressBook getAddressBook() {
+    public AddressBook getAddressBook() {
         return addressBook;
     }
 
@@ -94,7 +95,7 @@ public class MainController extends Observable implements Controller, Initializa
     public void showDialog() {
         if (editStage == null) {
             editStage = new Stage();
-            editStage.setTitle(fxmlLoader.getResources().getString("editing_note"));
+            editStage.titleProperty().bind(RESOURCE_FACTORY.getStringBinding("editing_note"));
             editStage.setMinHeight(150);
             editStage.setMinWidth(300);
             editStage.setResizable(false);
@@ -113,18 +114,15 @@ public class MainController extends Observable implements Controller, Initializa
         return cancelCommand;
     }
 
-    public ResourceBundle getResources() {
-        return resources;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.resources = resources;
+        RESOURCE_FACTORY =
+                ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE, UK));
 
         columnFullName.setCellValueFactory(param -> param.getValue().getFullNameProperty());
+        columnFullName.textProperty().bind(RESOURCE_FACTORY.getStringBinding("full_name"));
         columnPhone.setCellValueFactory(param -> param.getValue().getPhoneProperty());
-
-//        setClearButtonField(textField);
+        columnPhone.textProperty().bind(RESOURCE_FACTORY.getStringBinding("phone"));
 
         fillLangComboBox();
 
@@ -136,12 +134,15 @@ public class MainController extends Observable implements Controller, Initializa
     }
 
     private void fillLangComboBox() {
-
-        comboLocales.getItems().add(LocaleManager.getLang(uk));
-        comboLocales.getItems().add(LocaleManager.getLang(en));
-        comboLocales.getItems().add(LocaleManager.getLang(ru));
-
-        comboLocales.getSelectionModel().select(LocaleManager.getCurrentLang().getIndex());
+        comboLocales.getItems().addAll(UK, Locale.ENGLISH, new Locale("ru"));
+        comboLocales.setValue(UK);
+        comboLocales.setCellFactory(param -> new LocaleCell());
+        comboLocales.setButtonCell(new LocaleCell());
+        comboLocales.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                RESOURCE_FACTORY.setResource(ResourceBundle.getBundle(LOCALE, newValue));
+            }
+        });
     }
 
     private ObservableList<Person> getSortedLists(ObservableList<Person> observableList) {
@@ -167,7 +168,7 @@ public class MainController extends Observable implements Controller, Initializa
 
     private void initListeners() {
         addressBook = new CollectionAddressBook();
-        ObservableList<Person> personList = addressBook.getPersonList();
+        ObservableList<Person> personList = addressBook.findAll();
 
         filteredList = new FilteredList(personList, person -> true);
         filteredList.addListener((ListChangeListener<? super Person>) changingList -> updateCountLabel());
@@ -185,30 +186,15 @@ public class MainController extends Observable implements Controller, Initializa
 
 //        filtering without button
 //        https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
-/*        textField.textProperty().addListener((observable, oldValue, newValue) ->
-                filteredList.setPredicate(person -> {
-                    if (newValue == null || newValue.isEmpty()) {
-                        return true;
-                    }
-                    String newValueLoverCase = newValue.toLowerCase();
-                    return person.getFullName().toLowerCase().contains(newValueLoverCase) ||
-                            person.getPhone().toLowerCase().contains(newValueLoverCase);
-                })
-        );*/
-
-        comboLocales.setOnAction(event -> {
-            Lang selectedLang = comboLocales.getSelectionModel().getSelectedItem();
-            LocaleManager.setCurrentLang(selectedLang);
-            setChanged();
-            notifyObservers(selectedLang);
-        });
+//        DataUtil.getFilteringField(textField, filteredList);
     }
 
     private void initLoader() {
         fxmlLoader = new FXMLLoader();
 
-        fxmlLoader.setResources(ResourceBundle.getBundle("com/kirilo.javafx.phone_book.bundles.Locale", LocaleManager.getCurrentLang().getLocale()));
-        try (InputStream inputStream = getClass().getResourceAsStream("../fxml/edit.fxml")) {
+        fxmlLoader.setResources(RESOURCE_FACTORY.getResource());
+
+        try (InputStream inputStream = getClass().getResourceAsStream(EDIT_RESOURCE)) {
             fxmlEdit = fxmlLoader.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,6 +204,11 @@ public class MainController extends Observable implements Controller, Initializa
     }
 
     private void initCommands() {
+        RESOURCE_FACTORY.setText(buttonAdd, "add");
+        RESOURCE_FACTORY.setText(buttonDel, "del");
+        RESOURCE_FACTORY.setText(buttonEdit, "edit");
+        RESOURCE_FACTORY.setText(buttonSearch, "search");
+
         addCommand = new AddCommand(this);
         editCommand = new EditCommand(this);
         cancelCommand = new CancelCommand(this);
@@ -226,9 +217,7 @@ public class MainController extends Observable implements Controller, Initializa
     }
 
     private void updateCountLabel() {
-        labelCounts.setText(resources.getString("count_of_notes") + ": " +
-                filteredList.size()
-        );
+        labelCounts.textProperty().bind((RESOURCE_FACTORY.getStringBinding("count_of_notes")).concat(": " + filteredList.size()));
     }
 
     public void addPerson(ActionEvent actionEvent) {
@@ -263,5 +252,16 @@ public class MainController extends Observable implements Controller, Initializa
         return tableView.getSelectionModel().getSelectedItems();
     }
 
+    public static class LocaleCell extends ListCell<Locale> {
+        @Override
+        protected void updateItem(Locale locale, boolean empty) {
+            super.updateItem(locale, empty);
+            if (empty) {
+                setText(null);
+            } else {
+                setText(locale.getDisplayLanguage(locale));
+            }
+        }
+    }
 
 }

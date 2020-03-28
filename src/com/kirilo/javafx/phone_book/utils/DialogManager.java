@@ -4,14 +4,20 @@ import com.kirilo.javafx.phone_book.objects.Person;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 public class DialogManager {
+    private static final String LOCALE = "com/kirilo.javafx.phone_book.bundles.Locale";
+    private static ObservableResourceFactory resourceFactory = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE, new Locale("uk")));
+
     private static void baseDialog(String title, String text, AlertType information) {
         Alert alert = new Alert(information);
-        alert.setTitle(title);
-        alert.setContentText(text);
+        alert.titleProperty().bind(resourceFactory.getStringBinding(title));
+        alert.contentTextProperty().bind(resourceFactory.getStringBinding(text));
         alert.setHeaderText("");
         alert.showAndWait();
     }
@@ -25,7 +31,6 @@ public class DialogManager {
     }
 
     public static boolean isSelected(Object selectedObject, String title, String text) {
-//        System.out.println(selectedObject.toString().equals("[]"));
         return checkWithPredicate(title, text, selectedObject == null || selectedObject.toString().equals("[]"));
     }
 

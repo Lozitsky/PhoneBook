@@ -12,23 +12,37 @@ public class CollectionAddressBook implements AddressBook {
         personList = FXCollections.observableArrayList();
     }
 
-    public ObservableList<Person> getPersonList() {
+    @Override
+    public boolean add(Person person) {
+        personList.add(person);
+        return true;
+    }
+
+    @Override
+    public boolean delete(Person person) {
+        personList.remove(person);
+        return true;
+    }
+
+    @Override
+    public boolean delete(ObservableList<Person> persons) {
+        return personList.removeAll(persons);
+    }
+
+    @Override
+    public boolean update(Person person) {
+
+        return true;
+    }
+
+    @Override
+    public ObservableList<Person> findAll() {
         return personList;
     }
 
     @Override
-    public void add(Person person) {
-        personList.add(person);
-    }
-
-    @Override
-    public void delete(Person person) {
-        personList.remove(person);
-    }
-
-    @Override
-    public void update(Person person) {
-
+    public ObservableList<Person> find(String text) {
+        return null;
     }
 
 }
