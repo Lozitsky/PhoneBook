@@ -4,6 +4,7 @@ import com.kirilo.javafx.phone_book.interfaces.AddressBook;
 import com.kirilo.javafx.phone_book.objects.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 public class CollectionAddressBook implements AddressBook {
     private ObservableList<Person> personList;
@@ -31,7 +32,6 @@ public class CollectionAddressBook implements AddressBook {
 
     @Override
     public boolean update(Person person) {
-
         return true;
     }
 
@@ -42,7 +42,15 @@ public class CollectionAddressBook implements AddressBook {
 
     @Override
     public ObservableList<Person> find(String text) {
-        return null;
+        final FilteredList<Person> filteredList = new FilteredList<>(personList);
+
+        filteredList.setPredicate(person -> {
+            if (text == null || text.isEmpty()) {
+                return true;
+            }
+            return person.getFullName().contains(text.toLowerCase()) || person.getPhone().contains(text.toLowerCase());
+        });
+        return filteredList;
     }
 
 }

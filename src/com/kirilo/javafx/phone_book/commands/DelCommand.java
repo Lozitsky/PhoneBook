@@ -24,7 +24,6 @@ public class DelCommand extends AbstractControllerCommand {
             return false;
         }
 
-        controller.getAddressBook().delete(selectedPersons);
-        return true;
+        return controller.getAddressBook().delete(selectedPersons);
     }
 }

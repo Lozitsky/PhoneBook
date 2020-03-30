@@ -17,6 +17,7 @@ public class DBAddressBook implements AddressBook {
     public static final Logger LOGGER = Logger.getLogger(DBAddressBook.class.getName());
     public static final String DELETE_FROM_PERSON_WHERE_ID = "DELETE FROM person WHERE id=%d";
     public static final String DELETE_FROM_PERSON_WHERE_ID_IN = "DELETE FROM person WHERE id IN(%s)";
+    public static final String SELECT_FROM_PERSON_WHERE_FULL_NAME_LIKE_OR_PHONE_LIKE = "SELECT * FROM person WHERE full_name LIKE ? OR phone LIKE ?";
     private static Connection connection;
     private ObservableList<Person> personList;
 
@@ -130,7 +131,25 @@ public class DBAddressBook implements AddressBook {
 
     @Override
     public ObservableList<Person> find(String text) {
-        return null;
+        personList.clear();
+        initConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FROM_PERSON_WHERE_FULL_NAME_LIKE_OR_PHONE_LIKE)) {
+            final String format = String.format("%%%s%%", text);
+            preparedStatement.setString(1, format);
+            preparedStatement.setString(2, format);
+            final ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                final Person person = new Person();
+                person.setId(resultSet.getInt("id"));
+                person.setFullName(resultSet.getString("full_name"));
+                person.setPhone(resultSet.getString("phone"));
+                personList.add(person);
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+        }
+        return personList;
     }
 
     private void initConnection() {

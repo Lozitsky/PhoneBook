@@ -21,9 +21,9 @@ public class DataUtil {
         personList.add(new Person("Martin Mueller", "0971234569"));
     }
 
-    public static TextField getFilteringField(TextField textField, FilteredList<Person> filteredList) {
-        TextField field = new TextField(textField.getText());
-        field.textProperty().addListener((observable, oldValue, newValue) ->
+    public static boolean changeToFilterField(TextField textField, FilteredList<Person> filteredList) {
+//        TextField field = new TextField(textField.getText());
+        textField.textProperty().addListener((observable, oldValue, newValue) ->
                 filteredList.setPredicate(person -> {
                     if (newValue == null || newValue.isEmpty()) {
                         return true;
@@ -33,6 +33,6 @@ public class DataUtil {
                             person.getPhone().toLowerCase().contains(newValueLoverCase);
                 })
         );
-        return field;
+        return textField.getLength() > 0;
     }
 }

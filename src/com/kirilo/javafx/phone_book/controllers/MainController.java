@@ -4,6 +4,7 @@ import com.kirilo.javafx.phone_book.commands.*;
 import com.kirilo.javafx.phone_book.interfaces.AddressBook;
 import com.kirilo.javafx.phone_book.interfaces.impls.DBAddressBook;
 import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.utils.DataUtil;
 import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
@@ -186,7 +187,7 @@ public class MainController implements Controller, Initializable {
 
 //        filtering without button
 //        https://code.makery.ch/blog/javafx-8-tableview-sorting-filtering/
-//        DataUtil.getFilteringField(textField, filteredList);
+        DataUtil.changeToFilterField(textField, filteredList);
     }
 
     private void initLoader() {
@@ -238,9 +239,9 @@ public class MainController implements Controller, Initializable {
 
     @Override
     public void executeCommand(Command command) {
-        Person selectedPerson = getSelectedPerson();
+//        Person selectedPerson = getSelectedPerson();
         if (command.execute()) {
-            System.out.println(selectedPerson);
+            System.out.println(command.toString());
         }
     }
 
