@@ -1,11 +1,9 @@
 package com.kirilo.javafx.phone_book.utils;
 
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.TextField;
-import org.controlsfx.control.textfield.CustomTextField;
-import org.controlsfx.control.textfield.TextFields;
 
 public class DataUtil {
 

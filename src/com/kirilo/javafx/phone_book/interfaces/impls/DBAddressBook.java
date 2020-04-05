@@ -2,7 +2,7 @@ package com.kirilo.javafx.phone_book.interfaces.impls;
 
 import com.kirilo.javafx.phone_book.db.SQLiteConnection;
 import com.kirilo.javafx.phone_book.interfaces.AddressBook;
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,12 +12,13 @@ import java.util.logging.Logger;
 
 // https://stackoverflow.com/questions/42494178/java-sql-sqlexception-database-connection-closed
 public class DBAddressBook implements AddressBook {
-    public static final String SELECT_FROM_PERSON = "select * from person";
-    public static final String INSERT_INTO_PERSON = "INSERT INTO person VALUES(null, ?, ?)";
-    public static final Logger LOGGER = Logger.getLogger(DBAddressBook.class.getName());
-    public static final String DELETE_FROM_PERSON_WHERE_ID = "DELETE FROM person WHERE id=%d";
-    public static final String DELETE_FROM_PERSON_WHERE_ID_IN = "DELETE FROM person WHERE id IN(%s)";
-    public static final String SELECT_FROM_PERSON_WHERE_FULL_NAME_LIKE_OR_PHONE_LIKE = "SELECT * FROM person WHERE full_name LIKE ? OR phone LIKE ?";
+    private static final String SELECT_FROM_PERSON = "select * from person";
+    private static final String INSERT_INTO_PERSON = "INSERT INTO person VALUES(null, ?, ?)";
+    private static final Logger LOGGER = Logger.getLogger(DBAddressBook.class.getName());
+    private static final String DELETE_FROM_PERSON_WHERE_ID = "DELETE FROM person WHERE id=%d";
+    private static final String DELETE_FROM_PERSON_WHERE_ID_IN = "DELETE FROM person WHERE id IN(%s)";
+    private static final String SELECT_FROM_PERSON_WHERE_FULL_NAME_LIKE_OR_PHONE_LIKE = "SELECT * FROM person WHERE full_name LIKE ? OR phone LIKE ?";
+    private static final String UPDATE_PERSON_SET_FULL_NAME_PHONE_WHERE_ID = "UPDATE person SET full_name=?, phone=? WHERE id=?";
     private static Connection connection;
     private ObservableList<Person> personList;
 
@@ -73,10 +74,12 @@ public class DBAddressBook implements AddressBook {
 
             final StringBuilder builder = new StringBuilder();
             persons.forEach(person -> builder.append(person.getId()).append(","));
-            final String expression = builder.toString();
+            builder.setLength(builder.length() - 1);
 
             final int update = statement.executeUpdate(String.format(DELETE_FROM_PERSON_WHERE_ID_IN,
-                    expression.substring(0, expression.length() - 1)));
+                    builder.toString()
+                    )
+            );
 
             if (update > 0) {
                 return personList.removeAll(persons);
@@ -90,7 +93,7 @@ public class DBAddressBook implements AddressBook {
     @Override
     public boolean update(Person person) {
         initConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE person SET full_name=?, phone=? WHERE id=?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PERSON_SET_FULL_NAME_PHONE_WHERE_ID)) {
             preparedStatement.setString(1, person.getFullName());
             preparedStatement.setString(2, person.getPhone());
             preparedStatement.setInt(3, person.getId());

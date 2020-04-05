@@ -2,7 +2,7 @@ package com.kirilo.javafx.phone_book.commands;
 
 import com.kirilo.javafx.phone_book.controllers.EditDialogController;
 import com.kirilo.javafx.phone_book.controllers.MainController;
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.scene.control.TableView;
 
 import static com.kirilo.javafx.phone_book.utils.DialogManager.checkValues;

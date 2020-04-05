@@ -1,3 +1,8 @@
+/*sqlite3
+.open .../db/test.db
+create table person(id integer not null primary key autoincrement,
+ full_name text not null, phone text note null);*/
+
 -- select * from person;
 insert into person values (null, 'Hans Muster', '0971234561');
 insert into person values (null, 'Ruth Mueller', '0971234562');

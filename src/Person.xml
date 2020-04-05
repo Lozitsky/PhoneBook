@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="com.kirilo.javafx.phone_book.objects.model.Person">
+        <table name="person" schema="main" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="-1"/>
+            </id>
+            <basic name="fullName">
+                <column name="full_name"/>
+            </basic>
+            <basic name="phone">
+                <column name="phone"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

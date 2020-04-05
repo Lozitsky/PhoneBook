@@ -2,8 +2,7 @@ package com.kirilo.javafx.phone_book.commands;
 
 import com.kirilo.javafx.phone_book.controllers.EditDialogController;
 import com.kirilo.javafx.phone_book.controllers.MainController;
-import com.kirilo.javafx.phone_book.objects.Person;
-import javafx.scene.control.TableView;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 
 public class AddCommand extends AbstractControllerCommand {
 

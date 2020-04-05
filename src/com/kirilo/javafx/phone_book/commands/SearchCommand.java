@@ -1,7 +1,7 @@
 package com.kirilo.javafx.phone_book.commands;
 
 import com.kirilo.javafx.phone_book.controllers.MainController;
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.collections.ObservableList;
 
 public class SearchCommand extends AbstractControllerCommand {

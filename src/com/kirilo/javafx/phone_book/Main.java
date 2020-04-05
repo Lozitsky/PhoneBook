@@ -16,24 +16,15 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-import static com.kirilo.javafx.phone_book.objects.LangCode.uk;
-
 
 public class Main extends Application implements Observer {
 
     private static final String PHONE_BOOK = "fxml/phone_book.fxml";
-    private static final String LOCALE_BUNDLE = "com/kirilo.javafx.phone_book.bundles.Locale";
+    private static final String LOCALE_BUNDLE = "com/kirilo/javafx/phone_book/bundles/Locale";
     private ObservableResourceFactory RESOURCE_FACTORY;
-
-    {
-//        Locale locale = LocaleManager.getCurrentLang().getLocale();
-//        RESOURCE_FACTORY = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE_BUNDLE, new Locale("uk")));
-    }
 
     private Stage primaryStage;
     private VBox parent;
-//    private ResourceBundle resources;
-
 
     public static void main(String[] args) {
         launch(args);
@@ -42,8 +33,8 @@ public class Main extends Application implements Observer {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        createGUI(new Locale(uk.getCode()));
-//        createGUI(new Locale("uk"));
+//        createGUI(new Locale(uk.getCode()));
+        createGUI(new Locale("uk"));
     }
 
     private void createGUI(Locale locale) {
@@ -73,10 +64,8 @@ public class Main extends Application implements Observer {
     private FXMLLoader changeLocale(Locale locale) {
         FXMLLoader fxmlLoader = new FXMLLoader();
 
-//        RESOURCE_FACTORY.setResource(ResourceBundle.getBundle(LOCALE_BUNDLE, locale));
         RESOURCE_FACTORY = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE_BUNDLE, locale));
         fxmlLoader.setResources(RESOURCE_FACTORY.getResource());
-//        this.resources = fxmlLoader.getResources();
 
         return fxmlLoader;
     }
@@ -86,5 +75,10 @@ public class Main extends Application implements Observer {
         Lang lang = (Lang) arg;
         VBox newVBox = loadTreeFromFXML(lang.getLocale());
         parent.getChildren().setAll(newVBox.getChildren());
+    }
+
+    @Override
+    public void stop() throws Exception {
+        System.exit(0);
     }
 }

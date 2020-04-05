@@ -2,8 +2,9 @@ package com.kirilo.javafx.phone_book.controllers;
 
 import com.kirilo.javafx.phone_book.commands.*;
 import com.kirilo.javafx.phone_book.interfaces.AddressBook;
-import com.kirilo.javafx.phone_book.interfaces.impls.DBAddressBook;
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.interfaces.impls.CollectionAddressBook;
+import com.kirilo.javafx.phone_book.interfaces.impls.HibernateAddressBook;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import com.kirilo.javafx.phone_book.utils.DataUtil;
 import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import javafx.beans.property.ObjectProperty;
@@ -168,12 +169,13 @@ public class MainController implements Controller, Initializable {
 
     private void initListeners() {
 //        addressBook = new CollectionAddressBook();
-        addressBook = new DBAddressBook();
+//        addressBook = new DBAddressBook();
+        addressBook = new HibernateAddressBook();
         ObservableList<Person> personList = addressBook.findAll();
 
         filteredList = new FilteredList(personList, person -> true);
         filteredList.addListener((ListChangeListener<? super Person>) changingList -> updateCountLabel());
-
+// when using CollectionAddressBook
 //        DataUtil.fillTestData(personList);
 
         tableView.setItems(getSortedLists(filteredList));
@@ -239,7 +241,6 @@ public class MainController implements Controller, Initializable {
 
     @Override
     public void executeCommand(Command command) {
-//        Person selectedPerson = getSelectedPerson();
         if (command.execute()) {
             System.out.println(command.toString());
         }

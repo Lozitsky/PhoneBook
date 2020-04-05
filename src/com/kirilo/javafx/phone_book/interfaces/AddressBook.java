@@ -1,6 +1,6 @@
 package com.kirilo.javafx.phone_book.interfaces;
 
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.collections.ObservableList;
 
 public interface AddressBook {

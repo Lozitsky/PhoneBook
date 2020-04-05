@@ -1,6 +1,6 @@
 package com.kirilo.javafx.phone_book.utils;
 
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -11,7 +11,7 @@ import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 public class DialogManager {
-    private static final String LOCALE = "com/kirilo.javafx.phone_book.bundles.Locale";
+    private static final String LOCALE = "com/kirilo/javafx/phone_book/bundles/Locale";
     private static ObservableResourceFactory resourceFactory = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE, new Locale("uk")));
 
     private static void baseDialog(String title, String text, AlertType information) {

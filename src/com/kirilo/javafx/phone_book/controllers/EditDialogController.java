@@ -2,7 +2,7 @@ package com.kirilo.javafx.phone_book.controllers;
 
 import com.kirilo.javafx.phone_book.commands.Command;
 import com.kirilo.javafx.phone_book.commands.SaveCommand;
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

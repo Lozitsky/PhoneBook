@@ -1,7 +1,7 @@
 package com.kirilo.javafx.phone_book.interfaces.impls;
 
 import com.kirilo.javafx.phone_book.interfaces.AddressBook;
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

@@ -1,7 +1,7 @@
 package com.kirilo.javafx.phone_book.commands;
 
 import com.kirilo.javafx.phone_book.controllers.MainController;
-import com.kirilo.javafx.phone_book.objects.Person;
+import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.collections.ObservableList;
 
 import static com.kirilo.javafx.phone_book.utils.DialogManager.isSelected;
@@ -24,6 +24,6 @@ public class DelCommand extends AbstractControllerCommand {
             return false;
         }
 
-        return controller.getAddressBook().delete(selectedPersons);
+        return selectedPersons.size() > 1 ? controller.getAddressBook().delete(selectedPersons) : controller.getAddressBook().delete(selectedPersons.get(0));
     }
 }
