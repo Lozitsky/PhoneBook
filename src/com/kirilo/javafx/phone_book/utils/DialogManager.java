@@ -15,7 +15,7 @@ import static javafx.scene.control.Alert.AlertType.INFORMATION;
 public class DialogManager {
     private static final String LOCALE = "com/kirilo/javafx/phone_book/bundles/Locale";
     private static ObservableResourceFactory resourceFactory = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE, new Locale("uk")));
-    public static final String STYLESHEET = DialogManager.class.getResource("/resources/dialog.css").toExternalForm();
+    private static final String STYLESHEET = DialogManager.class.getResource("/resources/css/dialog.css").toExternalForm();
     private static Label icon;
     private static Alert alert;
 

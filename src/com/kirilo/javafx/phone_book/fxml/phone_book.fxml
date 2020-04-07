@@ -96,6 +96,6 @@
     </children>
 <!--    https://stackoverflow.com/questions/23475727/how-to-attach-a-css-stylesheet-to-fxml -->
     <stylesheets>
-        <URL value="@/resources/phonebook.css" />
+        <URL value="@/resources/css/phonebook.css" />
     </stylesheets>
 </VBox>
