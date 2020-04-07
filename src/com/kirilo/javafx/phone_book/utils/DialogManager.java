@@ -2,6 +2,7 @@ package com.kirilo.javafx.phone_book.utils;
 
 import com.kirilo.javafx.phone_book.objects.model.Person;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 
 import java.util.Locale;
@@ -10,19 +11,29 @@ import java.util.ResourceBundle;
 import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
+// https://dgit.cs.uni-saarland.de/pseuco/pseuco-ide/-/commit/dd9dd246114617b68aa444320a8a4f2368b8caf6
 public class DialogManager {
     private static final String LOCALE = "com/kirilo/javafx/phone_book/bundles/Locale";
     private static ObservableResourceFactory resourceFactory = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE, new Locale("uk")));
+    public static final String STYLESHEET = DialogManager.class.getResource("/resources/dialog.css").toExternalForm();
+    private static Label icon;
+    private static Alert alert;
 
     private static void baseDialog(String title, String text, AlertType information) {
-        Alert alert = new Alert(information);
+        DialogManager.alert = new Alert(information);
+        Alert alert = DialogManager.alert;
+        alert.getDialogPane().getStylesheets().add(STYLESHEET);
         alert.titleProperty().bind(resourceFactory.getStringBinding(title));
         alert.contentTextProperty().bind(resourceFactory.getStringBinding(text));
         alert.setHeaderText("");
+//        alert.setGraphic(icon);
         alert.showAndWait();
     }
 
     public static void showInfoDialog(String title, String text) {
+        icon = new Label (" ");
+        icon.getStyleClass().add("info-dialog");
+
         baseDialog(title, text, INFORMATION);
     }
 

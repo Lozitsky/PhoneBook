@@ -3,6 +3,7 @@ package com.kirilo.javafx.phone_book.controllers;
 import com.kirilo.javafx.phone_book.commands.*;
 import com.kirilo.javafx.phone_book.interfaces.AddressBook;
 import com.kirilo.javafx.phone_book.interfaces.impls.CollectionAddressBook;
+import com.kirilo.javafx.phone_book.interfaces.impls.DBAddressBook;
 import com.kirilo.javafx.phone_book.interfaces.impls.HibernateAddressBook;
 import com.kirilo.javafx.phone_book.objects.model.Person;
 import com.kirilo.javafx.phone_book.utils.DataUtil;

@@ -1,0 +1,29 @@
+.root {
+    -fx-font-size: 20px;
+    -fx-font-family: sans-serif;
+    -fx-base: #D9DEE7;
+    -fx-accent: #A3C8E5;
+    -fx-background: #9FBECDE8;
+    -fx-focus-color: #D9DEE7;
+    -fx-control-inner-background: WHITE;
+    -fx-text-base-color: #4D4D4D;
+    -fx-text-background-color: RED;
+
+    -fx-text-inner-color: #171212;
+    -fx-inner-border: linear-gradient(to bottom,
+    derive(-fx-color, 82, 01%) 0%,
+    derive(-fx-color, 100%) 100%);
+    -fx-body-color: linear-gradient(to bottom,
+    derive(-fx-color, 11, 15%) 0%,
+    derive(-fx-color, 17, 7%) 50%,
+    derive(-fx-color, -0, 33%) 100%);
+    -fx-shadow-highlight-color: derive(-fx-background, 8, 52%);
+    /*-fx-background-image: url("/resources/images/search-icon.png");*/
+}
+
+.info-dialog {
+/*    -fx-font-size: 20;
+    -fx-text-background-color: red;*/
+    /*-fx-background-image: url(/resources/images/search_3-icon.png) 40px 40px;*/
+    -fx-border-image-insets: 0% 50%;
+}
