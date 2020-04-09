@@ -1,7 +1,7 @@
 package com.kirilo.javafx.phone_book;
 
 import com.kirilo.javafx.phone_book.controllers.MainController;
-import com.kirilo.javafx.phone_book.objects.preloader.PreloaderExample;
+import com.kirilo.javafx.phone_book.preloader.PreloaderExample;
 import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import com.sun.javafx.application.LauncherImpl;
 import javafx.application.Application;
@@ -30,9 +30,6 @@ public class Main extends Application {
     private static final String PHONE_BOOK = "fxml/phone_book.fxml";
     private static final String LOCALE_BUNDLE = "com/kirilo/javafx/phone_book/bundles/Locale";
     private ObservableResourceFactory RESOURCE_FACTORY;
-
-//    private Stage primaryStage;
-//    private VBox parent;
 
     BooleanProperty ready = new SimpleBooleanProperty(false);
 
@@ -69,10 +66,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         longStart();
-//        this.primaryStage = primaryStage;
-//        createGUI(new Locale(uk.getCode()));
         createGUI(primaryStage, new Locale("uk"));
-
         initPreloaderListener(primaryStage);
     }
 
@@ -123,13 +117,6 @@ public class Main extends Application {
 
         return fxmlLoader;
     }
-
-/*    @Override
-    public void update(Observable o, Object arg) {
-        Lang lang = (Lang) arg;
-        VBox newVBox = loadTreeFromFXML(lang.getLocale());
-        parent.getChildren().setAll(newVBox.getChildren());
-    }*/
 
     @Override
     public void stop() throws Exception {

@@ -1,7 +1,9 @@
-package com.kirilo.javafx.phone_book.objects.preloader;
+package com.kirilo.javafx.phone_book.preloader;
 
+import com.kirilo.javafx.phone_book.controllers.PreloaderController;
 import com.kirilo.javafx.phone_book.utils.ObservableResourceFactory;
 import javafx.application.Preloader;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -12,16 +14,20 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 
 public class PreloaderExample extends Preloader {
+    public static final String PRELOADER_FXML = "../fxml/preloader.fxml";
     private static final String LOCALE_BUNDLE = "com/kirilo/javafx/phone_book/bundles/Locale";
     private static final String STYLESHEET = PreloaderExample.class.getResource("/resources/css/dialog.css").toExternalForm();
     private ObservableResourceFactory RESOURCE_FACTORY;
 
     private Stage primaryStage;
+
     private ProgressBar progressBar;
     private boolean noLoadingProgress = true;
 
@@ -31,7 +37,6 @@ public class PreloaderExample extends Preloader {
         Label label = new Label();
         label.textProperty().bind(RESOURCE_FACTORY.getStringBinding("wait"));
         VBox loading = new VBox(10, label);
-//        loading.getStylesheets().add(STYLESHEET);
         loading.setMaxWidth(Region.USE_PREF_SIZE);
         loading.setMaxHeight(Region.USE_PREF_SIZE);
 
@@ -46,18 +51,34 @@ public class PreloaderExample extends Preloader {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        RESOURCE_FACTORY = ObservableResourceFactory.getInstance(ResourceBundle.getBundle(LOCALE_BUNDLE, new Locale("uk")));
+        FXMLLoader fxmlLoader = new FXMLLoader();
         this.primaryStage = primaryStage;
+        fxmlLoader.setResources(RESOURCE_FACTORY.getResource());
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setScene(createPreloadScene());
+
+        BorderPane borderPane = null;
+
+        try (InputStream inputStream = getClass().getResourceAsStream(PRELOADER_FXML)) {
+            borderPane = fxmlLoader.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        PreloaderController preloaderController = fxmlLoader.getController();
+        progressBar = preloaderController.getProgressBar();
+
+//        primaryStage.setScene(createPreloadScene());
+        Scene scene = new Scene(borderPane, 350, 100);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     @Override
     public void handleStateChangeNotification(StateChangeNotification info) {
-/*        if (info.getType() == Type.BEFORE_START) {
-*//*            try {
+        /*        if (info.getType() == Type.BEFORE_START) {
+         *//*            try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -88,4 +109,5 @@ public class PreloaderExample extends Preloader {
             }
         }
     }
+
 }
